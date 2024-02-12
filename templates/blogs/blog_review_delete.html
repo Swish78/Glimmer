@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Delete Blog Review - Your Thrifting Store{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h2 class="mb-0">Delete Blog Review</h2>
+            </div>
+            <div class="card-body">
+                <!-- Your blog review delete confirmation form here -->
+                {% block blog_review_delete_form %}{% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

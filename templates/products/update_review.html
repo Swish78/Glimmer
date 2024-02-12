@@ -1,0 +1,13 @@
+<!-- products/templates/products/review_update.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Update Review</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Update Review</button>
+  </form>
+  <a href="{% url 'products:product_detail' pk=review.product.pk %}">Cancel</a>
+{% endblock %}

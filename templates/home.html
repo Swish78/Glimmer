@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - Your Thrifting Store{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+
+        <!-- Jumbotron Section -->
+        <div class="jumbotron jumbotron-fluid bg-dark text-dark rounded">
+            <div class="container text-center">
+                <h1 class="display-4">Welcome{% if user.is_authenticated %}, {{ request.user.username }}{% else %} to the Thrifting Store{% endif %}!</h1>
+                <p class="lead">Discover unique fashion finds at our online thrifting store. Embrace sustainable fashion and style that tells a story.</p>
+                <a class="btn btn-primary btn-lg" href="{% url "products:product_list" %}" role="button">Shop Now</a>
+            </div>
+        </div>
+
+        <!-- About Section -->
+        <section class="mt-5">
+            <h2 class="text-center mb-4">About Our Thrifting Store</h2>
+            <div class="row">
+                <div class="col-lg-6">
+                    <img src="{% static 'images/about.jpg' %}" class="img-fluid rounded" alt="About Us">
+                </div>
+                <div class="col-lg-6">
+                    <p class="lead">Welcome to Your Thrifting Store, your go-to destination for sustainable and stylish fashion. We curate a diverse collection of pre-loved clothing, shoes, and accessories to bring you unique pieces with a history.</p>
+                    <p>Our mission is to make sustainable fashion accessible to everyone. By choosing thrifted items, you not only stand out in your style but also contribute to reducing fashion waste and promoting a more eco-friendly wardrobe.</p>
+                    <p>Explore our handpicked selection, and join our community of fashion enthusiasts who appreciate the thrill of thrifting. Discover fashion that's good for you and the planet!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Latest Arrivals Section -->
+        <section class="mt-5">
+            <h2 class="text-center mb-4">Latest Arrivals</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for product in latest_products %}
+                    <div class="col">
+                        <a href="{% url 'products:product_detail' pk=product.pk %}" class="card-link">
+                            <div class="card h-100" style="background-image: url('{{ product.image.url }}');">
+                                <div class="card-overlay">
+                                    <!-- Empty div for overlay content if needed -->
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ product.name }}</h5>
+                                    <p class="card-text">{{ product.description }}</p>
+                                    <p class="card-text">Price: ${{ product.price }}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Featured Blog Section -->
+        <section class="mt-5">
+            <h2 class="text-center mb-4">Featured Blog</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for post in featured_blog_posts %}
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ post.title }}</h5>
+                                <p class="card-text">{{ post.excerpt }}</p>
+                                <a href="{% url 'blogs:blog_post_detail' pk=post.pk %}" class="btn btn-primary">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+<!-- Testimonials Section -->
+<section class="mt-5">
+    <div class="container">
+        <h2 class="text-center mb-4">What Our Customers Say</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4 testimonial-card" style="background-color: #f8d7da; width: 18rem;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Satisfied Customer</h5>
+                        <p class="card-text">"I found the perfect dress for my special occasion. Your Thrifting Store's collection is amazing!"</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4 testimonial-card" style="background-color: #d4edda; width: 18rem">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Happy Shopper</h5>
+                        <p class="card-text">"Great prices and unique pieces. Thrifting has never been this stylish!"</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4 testimonial-card" style="background-color: #cce5ff; width: 18rem">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Fashion Lover</h5>
+                        <p class="card-text">"Thrifting at Your Thrifting Store is like a treasure hunt. I always find something fabulous!"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    
+
+
+
+    </div>
+{% endblock %}

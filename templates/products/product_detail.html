@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-3">
+    <div class="row">
+      <div class="col-md-6">
+        <img src="{{ product.image1.url }}" alt="{{ product.name }}" class="img-fluid">
+      </div>
+      <div class="col-md-6">
+        <h2>{{ product.name }}</h2>
+        <p><strong>Description:</strong> {{ product.description }}</p>
+        <p><strong>Price:</strong> ${{ product.price }}</p>
+        <p><strong>Category:</strong> {{ product.category.name }}</p>
+        <p><strong>Reviews:</strong> {{ product.reviews|default:"No reviews available." }}</p>
+        <p><strong>Ratings:</strong> {{ product.ratings|default:"Not rated yet." }} / 5.0</p>
+        <p><strong>Seller: </strong>{{ product.seller }}</p>  
+        <p><strong>Listed:</strong> {{ product.created_at|date:"F j, Y H:i" }}</p>
+      </div>
+
+    <!-- Additional Details or Features can be added here -->
+
+    <hr>
+
+    <!-- Display additional images if available -->
+    {% if product.image2 %}
+      <div class="row mt-3">
+        <div class="col-md-4">
+          <img src="{{ product.image2.url }}" alt="{{ product.name }}" class="img-fluid">
+        </div>
+      </div>
+    {% endif %}
+    {% if product.image3 %}
+      <div class="row mt-3">
+        <div class="col-md-4">
+          <img src="{{ product.image3.url }}" alt="{{ product.name }}" class="img-fluid">
+        </div>
+      </div>
+    {% endif %}
+  </div>
+  <hr>
+  
+{#  Product Reviews #}
+    <!-- product_detail.html -->
+
+<!-- Add a form to allow users to add reviews -->
+<form method="post" action="{% url 'products:add_review' product.pk %}">
+    {% csrf_token %}
+    <label for="rating">Rating:</label>
+    <label>
+        <input type="number" name="rating" step="0.1" min="0" max="5" required>
+    </label>
+    <label for="comment">Comment:</label>
+    <label>
+        <textarea name="comment" required></textarea>
+    </label>
+    <button type="submit">Add Review</button>
+</form>
+
+<!-- Display existing reviews and provide options to update and delete -->
+<h3>Product Reviews</h3>
+{% if product.review_set.all %}
+  <ul>
+    {% for review in product.review_set.all %}
+      <li>
+        <strong>{{ review.reviewer.username }}:</strong> {{ review.comment }} (Rating: {{ review.rating }}/5)
+        {% if request.user == review.reviewer %}
+          <a href="{% url 'products:update_review' product.pk review.pk %}">Update</a>
+          <a href="{% url 'products:delete_review' product.pk review.pk %}">Delete</a>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No reviews available for this product.</p>
+{% endif %}
+  </div>
+{% endblock %}

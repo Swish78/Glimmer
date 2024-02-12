@@ -1,0 +1,113 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <title>Glimmer</title>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark text-bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <img src="{% static 'images/brand_icon.svg' %}" alt="Logo" height="30" style="padding-left: 10px">
+            Glimmer
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'products:product_list' %}">
+                        <i class="fas fa-search"></i> Explore
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'blogs:blog_list' %}">
+                        <i class="fas fa-search"></i> Blogs
+                    </a>
+                </li>
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'products:product_create' %}">
+                            <i class="fas fa-plus"></i> Create Product
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+            <!-- Search Form -->
+            <form class="form-inline my-2 my-lg-0 mx-auto" id="search-form" method="GET" action="{% url 'products:product_search' %}">
+                <div class="input-group">
+                    <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="q" id="search-input">
+                    <button class="btn btn-outline-success" type="submit" id="search-button" disabled>
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+            </form>
+            <!-- Authentication Links -->
+            <ul class="navbar-nav ml-auto" style="padding-right: 10px">
+                {% if request.user.is_authenticated %}
+                     <li class="nav-item">
+            <a class="nav-link" href="{% url 'users:user_profile' pk=request.user.pk%}">
+                <i class="fas fa-user"></i> {{ request.user.username }}
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'users:logout' %}">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users:register' %}">
+                            <i class="fas fa-user-plus"></i> Register
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users:login' %}">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Page content -->
+<div class="container mt-3">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<!-- Footer -->
+<footer class="footer py-3">
+    <div class="container text-center">
+        <span class="text-muted">&copy; {% now 'Y' %} Glimmer </span>
+    </div>
+</footer>
+
+<!-- Bootstrap 5 JS (optional, for Bootstrap features like dropdowns) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+<!-- Custom Scripts -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+
+        searchInput.addEventListener('input', function () {
+            searchButton.disabled = !searchInput.value.trim();
+        });
+    });
+</script>
+
+</body>
+</html>

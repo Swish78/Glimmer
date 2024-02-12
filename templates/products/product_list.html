@@ -1,0 +1,57 @@
+{#{% extends 'base.html' %}#}
+{#{% load static %}#}
+{##}
+{#{% block title %}Explore Products - Your Thrifting Store{% endblock %}#}
+{##}
+{#{% block content %}#}
+{#    <div class="container mt-5">#}
+{#        <h2 class="text-center mb-4">Explore Products</h2>#}
+{#        <div class="row row-cols-1 row-cols-md-3 g-4">#}
+{#            {% for product in products %}#}
+{#                <div class="col">#}
+{#                    <a href="{% url 'products:product_detail' pk=product.pk %}" class="card-link">#}
+{#                        <div class="card h-100" style="background-image: url('{{ product.image.url }}');">#}
+{#                            <div class="card-overlay">#}
+{#                                <!-- Empty div for overlay content if needed -->#}
+{#                            </div>#}
+{#                            <div class="card-body">#}
+{#                                <h5 class="card-title">{{ product.name }}</h5>#}
+{#                                <p class="card-text">{{ product.description }}</p>#}
+{#                                <p class="card-text">Price: ${{ product.price }}</p>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </a>#}
+{#                </div>#}
+{#            {% endfor %}#}
+{#        </div>#}
+{#    </div>#}
+{#{% endblock %}#}
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Explore Products - Glimmer{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Explore Products</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for product in products %}
+                <div class="col">
+                    <a href="{% url 'products:product_detail' pk=product.pk %}" class="card-link">
+                        <div class="card h-100" style="background-image: url('{{ product.image.url }}'); background-size: cover; background-position: center;">
+                            <div class="card-overlay">
+                                <!-- Empty div for overlay content if needed -->
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ product.name }}</h5>
+                                <p class="card-text">{{ product.description }}</p>
+                                <p class="card-text">Price: ${{ product.price }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

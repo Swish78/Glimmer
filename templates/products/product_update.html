@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Update Product - Your Thrifting Store{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h2 class="mb-0">Update Product</h2>
+            </div>
+            <div class="card-body">
+                <!-- Your product update form here -->
+                {% block product_update_form %}{% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

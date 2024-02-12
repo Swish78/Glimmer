@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Blog Detail - Your Thrifting Store{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="card">
+            <img src="{{ blog.cover_photo.url }}" class="card-img-top" alt="{{ blog.title }}">
+            <div class="card-body">
+                <h2 class="card-title display-4">{{ blog.title }}</h2>
+                <p class="card-text lead">{{ blog.content }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Blogs - Your Thrifting Store{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Blogs</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for blog in blogs %}
+                <div class="col">
+                    <a href="{% url 'blogs:blog_detail' pk=blog.pk %}" class="card-link text-decoration-none">
+                        <div class="card h-100 shadow">
+                            <img src="{{ blog.cover_photo.url }}" class="card-img-top" alt="{{ blog.title }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ blog.title }}</h5>
+                                <p class="card-text">{{ blog.content|truncatewords:30 }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
