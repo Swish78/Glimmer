@@ -23,7 +23,7 @@ class BlogCreateView(LoginRequiredMixin, CreateView):
     model = Blog
     form_class = BlogForm
     template_name = 'blogs/blog_form.html'
-    success_url = reverse_lazy('blogs:blog_list')  # Adjust the URL for your blog list
+    success_url = reverse_lazy('blogs:blog_list')  
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -34,7 +34,7 @@ class BlogUpdateView(LoginRequiredMixin, UpdateView):
     model = Blog
     form_class = BlogForm
     template_name = 'blogs/blog_form.html'
-    success_url = reverse_lazy('blogs:blog_list')  # Adjust the URL for your blog list
+    success_url = reverse_lazy('blogs:blog_list')  
 
     def dispatch(self, request, *args, **kwargs):
         obj = self.get_object()
@@ -46,7 +46,7 @@ class BlogUpdateView(LoginRequiredMixin, UpdateView):
 class BlogDeleteView(LoginRequiredMixin, DeleteView):
     model = Blog
     template_name = 'blogs/blog_confirm_delete.html'
-    success_url = reverse_lazy('blogs:blog_list')  # Adjust the URL for your blog list
+    success_url = reverse_lazy('blogs:blog_list')  
 
     def dispatch(self, request, *args, **kwargs):
         obj = self.get_object()
