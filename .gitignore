@@ -1,0 +1,54 @@
+.env
+*.__pycache__/
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Media and Static files
+media/
+staticfiles/
+
+# Environment variables
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

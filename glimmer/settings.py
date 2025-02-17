@@ -11,6 +11,12 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+env_path = Path(__file__).resolve().parent.parent / '.env'
+load_dotenv(env_path)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,6 +47,30 @@ INSTALLED_APPS = [
     "users",
     "products",
 ]
+
+# Try to use Redis if available, otherwise fall back to local memory cache
+try:
+    import redis
+    redis_client = redis.Redis(host='127.0.0.1', port=6379, db=1)
+    redis_client.ping()
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": "redis://127.0.0.1:6379/1",
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            }
+        }
+    }
+    print("Using Redis cache backend")
+except:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+            "LOCATION": "unique-snowflake",
+        }
+    }
+    print("Using local memory cache backend")
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -120,6 +150,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -131,3 +162,24 @@ AUTH_USER_MODEL = "users.CustomUser"
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
+
+# Media files (User uploaded files)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Email Configuration with SendGrid
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+# SendGrid credentials from environment variables
+EMAIL_HOST_USER = 'apikey' 
+EMAIL_HOST_PASSWORD = os.getenv('SENDGRID_API_KEY') 
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')  
+
+# Site URL
+SITE_URL = 'http://127.0.0.1:8001'
+
+# User Registration Settings
+REQUIRE_EMAIL_VERIFICATION = False 
