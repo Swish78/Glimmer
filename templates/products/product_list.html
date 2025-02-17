@@ -33,25 +33,44 @@
 {% block title %}Explore Products - Glimmer{% endblock %}
 
 {% block content %}
-    <div class="container mt-5">
-        <h2 class="text-center mb-4">Explore Products</h2>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            {% for product in products %}
-                <div class="col">
-                    <a href="{% url 'products:product_detail' pk=product.pk %}" class="card-link">
-                        <div class="card h-100" style="background-image: url('{{ product.image.url }}'); background-size: cover; background-position: center;">
-                            <div class="card-overlay">
-                                <!-- Empty div for overlay content if needed -->
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">{{ product.name }}</h5>
-                                <p class="card-text">{{ product.description }}</p>
-                                <p class="card-text">Price: ${{ product.price }}</p>
-                            </div>
-                        </div>
-                    </a>
+<div class="container">
+    <header class="text-center mb-5">
+        <h1 class="display-4 mb-3">Discover Amazing Products</h1>
+        <p class="lead">Find unique items from our curated collection</p>
+    </header>
+
+    <div class="row g-4">
+        {% for product in products %}
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card product-card h-100">
+                <div class="card-img-wrapper">
+                    {% if product.image1 %}
+                    <img src="{{ product.image1.url }}" class="card-img-top" alt="{{ product.name }}">
+                    {% else %}
+                    <img src="{% static 'images/placeholder.png' %}" class="card-img-top" alt="No image available">
+                    {% endif %}
                 </div>
-            {% endfor %}
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h4 class="h5 card-title mb-0">{{ product.name }}</h4>
+                        {% if product.category %}
+                        <span class="badge bg-primary">{{ product.category.name }}</span>
+                        {% endif %}
+                    </div>
+                    <p class="card-text mb-2">${{ product.price }}</p>
+                    {% if product.ratings %}
+                    <div class="ratings mb-2">
+                        <span class="badge bg-warning text-dark">
+                            <i class="fas fa-star"></i> {{ product.ratings|floatformat:1 }}
+                        </span>
+                    </div>
+                    {% endif %}
+                    <p class="card-text">{{ product.description|truncatechars:100 }}</p>
+                    <a href="{% url 'products:product_detail' pk=product.pk %}" class="btn btn-outline-primary w-100 mt-3">View Details</a>
+                </div>
+            </div>
         </div>
+        {% endfor %}
     </div>
+</div>
 {% endblock %}

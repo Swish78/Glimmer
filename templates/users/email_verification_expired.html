@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Verification Link Expired - Glimmer{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="card shadow-sm">
+                <div class="card-body p-5">
+                    <i class="fas fa-clock text-warning mb-4" style="font-size: 4rem;"></i>
+                    <h1 class="display-5 mb-3">Link Expired</h1>
+                    <p class="lead text-muted mb-4">
+                        The verification link has expired. Verification links are valid for 24 hours after registration.
+                    </p>
+                    <div class="alert alert-warning" role="alert">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Please request a new verification link to complete your registration.
+                    </div>
+                    <div class="mt-4">
+                        <a href="#" class="btn btn-primary">
+                            <i class="fas fa-redo"></i> Request New Verification Link
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <a href="{% url 'home' %}" class="btn btn-outline-primary">
+                    <i class="fas fa-home"></i> Return to Home
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

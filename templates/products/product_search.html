@@ -1,15 +1,104 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Search Results - Your Thrifting Store{% endblock %}
+{% block title %}Search Results - Glimmer{% endblock %}
 
 {% block content %}
-    <div class="container mt-5">
-        <h2 class="text-center mb-4">Search Results</h2>
-        <!-- Display search results here -->
-        {% for result in results %}
-            <p>{{ result.name }}</p>
-            <!-- Add more details as needed -->
-        {% endfor %}
+<div class="container-fluid mt-5">
+    <div class="row">
+        <!-- Filters Sidebar -->
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Filters</h5>
+                    <form method="get" action="{% url 'products:product_search' %}">
+                        <input type="hidden" name="q" value="{{ query }}">
+                        
+                        <!-- Categories -->
+                        <div class="mb-3">
+                            <label class="form-label">Categories</label>
+                            {% for category in categories %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" 
+                                       value="{{ category.name }}" id="category{{ forloop.counter }}"
+                                       {% if request.GET.category == category.name %}checked{% endif %}>
+                                <label class="form-check-label" for="category{{ forloop.counter }}">
+                                    {{ category.name }} ({{ category.product_count }})
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Price Range -->
+                        <div class="mb-3">
+                            <label class="form-label">Price Range</label>
+                            {% for range in price_ranges %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="price_range" 
+                                       value="{{ range.min }},{{ range.max }}" id="price{{ forloop.counter }}"
+                                       {% if request.GET.price_min == range.min|stringformat:'s' %}checked{% endif %}>
+                                <label class="form-check-label" for="price{{ forloop.counter }}">
+                                    {% if range.max %}${{ range.min }} - ${{ range.max }}{% else %}${{ range.min }}+{% endif %}
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Sort Options -->
+                        <div class="mb-3">
+                            <label for="sort" class="form-label">Sort By</label>
+                            <select class="form-select" name="sort" id="sort">
+                                {% for option in sort_options %}
+                                <option value="{{ option.value }}" {% if request.GET.sort == option.value %}selected{% endif %}>
+                                    {{ option.label }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Results -->
+        <div class="col-md-9">
+            <h2 class="mb-4">Search Results for "{{ query }}"</h2>
+            {% if results %}
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for product in results %}
+                <div class="col">
+                    <a href="{% url 'products:product_detail' pk=product.pk %}" class="text-decoration-none">
+                        <div class="card h-100 shadow-sm">
+                            {% if product.image1 %}
+                            <img src="{{ product.image1.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
+                            {% else %}
+                            <div class="card-img-top bg-secondary" style="height: 200px;"></div>
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title text-dark">{{ product.name }}</h5>
+                                <p class="card-text text-muted">{{ product.description|truncatechars:100 }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="h5 mb-0 text-primary">${{ product.price }}</span>
+                                    {% if product.ratings %}
+                                    <span class="badge bg-warning text-dark">
+                                        <i class="fas fa-star"></i> {{ product.ratings|floatformat:1 }}
+                                    </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+                No products found matching your search criteria.
+            </div>
+            {% endif %}
+        </div>
     </div>
+</div>
 {% endblock %}

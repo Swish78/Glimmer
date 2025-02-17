@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Email Verified - Glimmer{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="card shadow-sm">
+                <div class="card-body p-5">
+                    <i class="fas fa-check-circle text-success mb-4" style="font-size: 4rem;"></i>
+                    <h1 class="display-5 mb-3">Email Verified!</h1>
+                    <p class="lead text-muted mb-4">
+                        Your email has been successfully verified. You can now access all features of Glimmer.
+                    </p>
+                    <div class="alert alert-success" role="alert">
+                        <i class="fas fa-user-check"></i>
+                        Your account is now fully activated.
+                    </div>
+                    <div class="mt-4">
+                        <a href="{% url 'products:product_list' %}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-shopping-bag"></i> Start Shopping
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

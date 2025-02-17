@@ -33,44 +33,73 @@
         <!-- Latest Arrivals Section -->
         <section class="mt-5">
             <h2 class="text-center mb-4">Latest Arrivals</h2>
-            <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="row g-4">
                 {% for product in latest_products %}
-                    <div class="col">
-                        <a href="{% url 'products:product_detail' pk=product.pk %}" class="card-link">
-                            <div class="card h-100" style="background-image: url('{{ product.image.url }}');">
-                                <div class="card-overlay">
-                                    <!-- Empty div for overlay content if needed -->
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ product.name }}</h5>
-                                    <p class="card-text">{{ product.description }}</p>
-                                    <p class="card-text">Price: ${{ product.price }}</p>
-                                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card product-card h-100">
+                        <div class="card-img-wrapper">
+                            {% if product.image1 %}
+                            <img src="{{ product.image1.url }}" class="card-img-top" alt="{{ product.name }}">
+                            {% else %}
+                            <img src="{% static 'images/placeholder.png' %}" class="card-img-top" alt="No image available">
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h4 class="h5 card-title mb-0">{{ product.name }}</h4>
+                                {% if product.category %}
+                                <span class="badge bg-primary">{{ product.category.name }}</span>
+                                {% endif %}
                             </div>
-                        </a>
+                            <p class="card-text mb-2">${{ product.price }}</p>
+                            {% if product.ratings %}
+                            <div class="ratings mb-2">
+                                <span class="badge bg-warning text-dark">
+                                    <i class="fas fa-star"></i> {{ product.ratings|floatformat:1 }}
+                                </span>
+                            </div>
+                            {% endif %}
+                            <p class="card-text">{{ product.description|truncatechars:100 }}</p>
+                            <a href="{% url 'products:product_detail' pk=product.pk %}" class="btn btn-outline-primary w-100 mt-3">View Details</a>
+                        </div>
                     </div>
+                </div>
                 {% endfor %}
             </div>
         </section>
 
-        <!-- Featured Blog Section -->
+        <!-- Featured Blog Section
         <section class="mt-5">
-            <h2 class="text-center mb-4">Featured Blog</h2>
-            <div class="row row-cols-1 row-cols-md-3 g-4">
+            <h2 class="text-center mb-4">Featured Blog Posts</h2>
+            <div class="row g-4">
                 {% for post in featured_blog_posts %}
-                    <div class="col">
-                        <div class="card h-100">
-                            <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ post.title }}</h5>
-                                <p class="card-text">{{ post.excerpt }}</p>
-                                <a href="{% url 'blogs:blog_post_detail' pk=post.pk %}" class="btn btn-primary">Read More</a>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card blog-card h-100">
+                        <div class="card-img-wrapper">
+                            {% if post.cover_photo %}
+                            <img src="{{ post.cover_photo.url }}" class="card-img-top" alt="{{ post.title }}">
+                            {% else %}
+                            <img src="{% static 'images/blog-placeholder.png' %}" class="card-img-top" alt="No image available">
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title mb-2">{{ post.title }}</h5>
+                            <div class="d-flex align-items-center mb-3">
+                                <span class="text-muted me-3">
+                                    <i class="fas fa-calendar-alt"></i> {{ post.created_at|date:"M d, Y" }}
+                                </span>
+                                {% if post.category %}
+                                <span class="badge bg-primary">{{ post.category }}</span>
+                                {% endif %}
                             </div>
+                            <p class="card-text">{{ post.excerpt|default:post.content|truncatechars:150 }}</p>
+                            <a href="{% url 'blogs:blog_post_detail' pk=post.pk %}" class="btn btn-outline-primary w-100 mt-3">Read More</a>
                         </div>
                     </div>
+                </div>
                 {% endfor %}
             </div>
-        </section>
+        </section> -->
 
 <!-- Testimonials Section -->
 <section class="mt-5">

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Invalid Verification Link - Glimmer{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="card shadow-sm">
+                <div class="card-body p-5">
+                    <i class="fas fa-exclamation-circle text-danger mb-4" style="font-size: 4rem;"></i>
+                    <h1 class="display-5 mb-3">Invalid Link</h1>
+                    <p class="lead text-muted mb-4">
+                        The verification link you clicked is invalid or has already been used.
+                    </p>
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fas fa-times-circle"></i>
+                        This may happen if you've already verified your email or if you're using an old verification link.
+                    </div>
+                    <div class="mt-4">
+                        <p class="mb-3">If you haven't verified your email yet, you can:</p>
+                        <a href="#" class="btn btn-primary">
+                            <i class="fas fa-redo"></i> Request New Verification Link
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <a href="{% url 'home' %}" class="btn btn-outline-primary">
+                    <i class="fas fa-home"></i> Return to Home
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

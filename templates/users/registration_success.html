@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Registration Successful - Glimmer{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="card shadow-sm">
+                <div class="card-body p-5">
+                    <i class="fas fa-envelope-open-text text-primary mb-4" style="font-size: 4rem;"></i>
+                    <h1 class="display-5 mb-3">Check Your Email</h1>
+                    <p class="lead text-muted mb-4">
+                        We've sent you a verification email. Please check your inbox and click the verification link to complete your registration.
+                    </p>
+                    <div class="alert alert-info" role="alert">
+                        <i class="fas fa-info-circle"></i>
+                        The verification link will expire in 24 hours.
+                    </div>
+                    <div class="mt-4">
+                        <p class="mb-0">Didn't receive the email?</p>
+                        <small class="text-muted">
+                            Check your spam folder or <a href="#" class="text-primary">request a new verification email</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <a href="{% url 'home' %}" class="btn btn-outline-primary">
+                    <i class="fas fa-home"></i> Return to Home
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

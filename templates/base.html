@@ -1,18 +1,20 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'styles.css' %}">
-    <title>Glimmer</title>
+    <title>{% block title %}Glimmer{% endblock %}</title>
 </head>
 <body>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark text-bg-dark">
+<nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'home' %}">
             <img src="{% static 'images/brand_icon.svg' %}" alt="Logo" height="30" style="padding-left: 10px">
@@ -53,6 +55,11 @@
             </form>
             <!-- Authentication Links -->
             <ul class="navbar-nav ml-auto" style="padding-right: 10px">
+                <li class="nav-item">
+                    <button class="nav-link theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </li>
                 {% if request.user.is_authenticated %}
                      <li class="nav-item">
             <a class="nav-link" href="{% url 'users:user_profile' pk=request.user.pk%}">
@@ -90,12 +97,39 @@
 <!-- Footer -->
 <footer class="footer py-3">
     <div class="container text-center">
-        <span class="text-muted">&copy; {% now 'Y' %} Glimmer </span>
+        <span class="text-muted" style="color: var(--text-muted) !important;">&copy; {% now 'Y' %} Glimmer </span>
     </div>
 </footer>
 
 <!-- Bootstrap 5 JS (optional, for Bootstrap features like dropdowns) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+<!-- Theme Toggle Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        const icon = themeToggle.querySelector('i');
+
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        updateIcon(savedTheme === 'dark');
+
+        themeToggle.addEventListener('click', function() {
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            const newTheme = isDark ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcon(!isDark);
+        });
+
+        function updateIcon(isDark) {
+            icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+        }
+    });
+</script>
 
 <!-- Custom Scripts -->
 <script>
