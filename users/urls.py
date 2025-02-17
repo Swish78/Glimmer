@@ -7,6 +7,7 @@ from .views import (
     UserProfileUpdateView,
     UserProfileDeleteView,
     HomeView,
+    EmailVerificationView,
 )
 
 app_name = 'users'
@@ -19,5 +20,5 @@ urlpatterns = [
     path('profile/update/', UserProfileUpdateView.as_view(), name='user_profile_update'),
     path('profile/delete/', UserProfileDeleteView.as_view(), name='user_profile_delete'),
     path('home/', HomeView.as_view(), name='home'),
-    # Add more views as needed
+    path('verify-email/<uuid:token>/', EmailVerificationView.as_view(), name='verify_email'),
 ]
